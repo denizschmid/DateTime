@@ -1,7 +1,7 @@
 <?php
     namespace Dansnet;
     
-    class Date {
+    class DateTime {
         
         private static $_formats = [
             "Y-m-d",
@@ -72,6 +72,13 @@
             return FALSE;
         }
         
+	/**
+	 * Gibt das Datum im gewünschten Format aus. Wird kein Format definiert,
+	 * so wird das Datum nach dem internationalen Format [Y-m-d H-i-s] ausgegeben.
+	 * 
+	 * @param string $format
+	 * @return string
+	 */
         public function getDate( $format="" ) {
             if( empty($format) ) {
                 return date_format($this->_date, static::$_formatDefaultDate);
@@ -79,49 +86,111 @@
             return date_format($this->_date, $format);
         }
         
+	/**
+	 * Gibt den Zeitbestandteil des Datums im Format [H:i:s] zurück.
+	 * 
+	 * @return string
+	 */
         public function getTime() {
             return date_format($this->_date, static::$_formatDefaultTime);
         }
         
+	/**
+	 * Gibt den Zeitbestandteil des Datums im Format [H:i] zurück.
+	 * 
+	 * @return type
+	 */
         public function getShortTime() {
             return date_format($this->_date, static::$_formatDefaultShortTime);
         }
         
+	/**
+	 * Gibt den Zeitstampel im internationalen Format [Y-m-d H-i-s] aus.
+	 * 
+	 * @return string
+	 */
         public function getDateTime() {
             return date_format($this->_date, static::$_formatDefaultDateTime);
         }
         
+	/**
+	 * Gibt das Datum im deutschen Format [d.m.Y] aus.
+	 * 
+	 * @return string
+	 */
         public function getDateGerman() {
             return date_format($this->_date, static::$_formatDateGerman);
         }
         
+	/**
+	 * Gibt den Zeitstampel im deutschen Format [d.m.Y H:i:s] aus.
+	 * 
+	 * @return string
+	 */
         public function getDateTimeGerman() {
             return date_format($this->_date, $this->concatDateTime(static::$_formatDateGerman, static::$_formatDefaultTime));
         }
         
+	/**
+	 * Gibt das Datum im internationalen Format [Y-m-d] aus.
+	 * 
+	 * @return string
+	 */
         public function getDateInternational() {
             return date_format($this->_date, static::$_formatDateInternational);
         }
         
+	/**
+	 * Gibt den Zeitstampel im internationalen Format [Y-m-d H:i:s] aus.
+	 * 
+	 * @return string
+	 */
         public function getDateTimeInternational() {
             return date_format($this->_date, $this->concatDateTime(static::$_formatDateInternational, static::$_formatDefaultTime));
         }
         
+	/**
+	 * Führt Berechnungen anhand des Zeitstampels durch.
+	 * 
+	 * @see http://php.net/manual/de/datetime.modify.php
+	 * @param string $modify
+	 * @return Dansnet\DateTime
+	 */
         public function calculate( $modify ) {
             $newDate = clone $this->_date;
-            return $newDate->modify($modify);
+            return new DateTime($newDate->modify($modify));
         }
         
+	/**
+	 * Gibt das morgige Datum zurück. Die Uhrzeit bleibt unberührt.
+	 * 
+	 * @param string $modify
+	 * @return Dansnet\DateTime
+	 */
         public function tomorrow() {
             $newDate = clone $this->_date;
-            return $newDate->modify("+1 day");
+            return new DateTime($newDate->modify("+1 day"));
         }
         
+	/**
+	 * Gibt das gestrige Datum zurück. Die Uhrzeit bleibt unberührt.
+	 * 
+	 * @param string $modify
+	 * @return Dansnet\DateTime
+	 */
         public function yesterday() {
             $newDate = clone $this->_date;
-            return $newDate->modify("-1 day");
+            return new DateTime($newDate->modify("-1 day"));
         }
         
+	/**
+	 * Führt den Datums- und Zeitbestandteil zusammen, damit der sich ergebende
+	 * String als Zeitstampel parsen lässt.
+	 * 
+	 * @param string $date
+	 * @param string $time
+	 * @return string
+	 */
         private function concatDateTime( $date, $time ) {
             return $date." ".$time;
         }

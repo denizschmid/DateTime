@@ -1,7 +1,7 @@
 <?php
-    include_once './Date.php';
+    include_once './DateTime.php';
     
-    $date = new Dansnet\Date();
+    $date = new Dansnet\DateTime();
     var_dump($date);
 
  
