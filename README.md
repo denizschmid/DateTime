@@ -1,6 +1,12 @@
 #DateTime
 DateTime is a simple PHP DateTime wrapper that extends the DateTime functionality with parsing, format and calculation functions.
 
+##Installation
+Install this package with bower
+```bash
+  bower install denizschmid/DateTime
+```
+
 ##Parsing
 The constructor has the ability to parse a string with common Date, DateTime or Time patterns. If no date or time is consigned the current date or time will be added to the consigned part of the string.
 
